@@ -43,7 +43,9 @@ public enum ReplyText {
     CITIZEN_ALREADY_DEAD("Житель уже мертв. Выбери другую цель"),
     KILL_CANDIDATE("Кандидат на убийство: %s"),
     BOT_WAS_INVITED("Всем привет! Я бот для игры в мафию. Умею много, но не все :)"),
-    NO_INVITE_TARGET("Добавь игрока через ответ на сообщение игрока + твой текст /invite");
+    NO_INVITE_TARGET("Добавь игрока через ответ на сообщение игрока + твой текст /invite"),
+    START_PRIVATE("Привет! Я бот для игры в мафию. Чтобы начать игру, добавь меня в чат.")
+    ;
 
     public static List<ReplyText> REQUIRED_REPLY = List.of(
             BOT_WAS_INVITED,
