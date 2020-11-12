@@ -25,13 +25,13 @@ public class OpenGameCommandHandler implements CommandHandler {
         player.setName(message.getFirstName() + " " + message.getLastName());
         player.setUserId(message.getUserId());
 
-        TechResponse techResponse = gameAdminService.openGame(message.getChatId(), player);
+        TechResponse techResponse = gameAdminService.openGame(message.getUserId(), player);
         log.info("Игра создана успешно: {}", techResponse.isSuccess());
 
         return HandleResponse.builder()
                 .success(true)
                 .techResponse(techResponse)
-                .requestChatId(message.getChatId())
+                .requestChatId(message.getUserId())
                 .build();
     }
 }
