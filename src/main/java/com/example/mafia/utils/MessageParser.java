@@ -61,7 +61,7 @@ public class MessageParser {
 
     private Message parseLikeCallback(CallbackQuery callbackQuery) {
         Message message = new Message();
-        Map<AnswerKey, String> decoded = CallbackEncoder.decode(callbackQuery.getMessage().getReplyMarkup().getKeyboard().get(0).get(0).getCallbackData());
+        Map<AnswerKey, String> decoded = CallbackEncoder.decode(callbackQuery.getData());
         Command command = extractCommand(Objects.requireNonNull(decoded.get(AnswerKey.COMMAND)));
         message.setCommand(command);
         String chatId = decoded.get(AnswerKey.RELATED_GAME);

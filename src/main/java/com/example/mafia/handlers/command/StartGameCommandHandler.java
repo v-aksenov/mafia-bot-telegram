@@ -25,13 +25,13 @@ public class StartGameCommandHandler implements CommandHandler {
     @Override
     public HandleResponse handleCommand(Message message) {
         log.info("обрабатываю команду START_GAME");
-        TechResponse techResponse = gameAdminService.startGame(message.getChatId(), message.getUserId());
+        TechResponse techResponse = gameAdminService.startGame(message.getUserId(), message.getUserId());
         List<GameMessage> gameMessages = gameActionExecutorService
-                .executeActions(message.getChatId(), List.of(Action.HELLO_ACTION));
+                .executeActions(message.getUserId(), List.of(Action.HELLO_ACTION));
         return HandleResponse.builder()
                 .success(true)
                 .techResponse(techResponse)
-                .requestChatId(message.getChatId())
+                .requestChatId(message.getUserId())
                 .gameResponse(new GameResponse(gameMessages))
                 .build();
     }
