@@ -68,6 +68,8 @@ public class MessageParser {
         String targetId = decoded.get(AnswerKey.TARGET);
         message.setUserId(callbackQuery.getFrom().getId().toString());
         message.setReplyToMessage(new ReplyToMessage(targetId, chatId));
+        message.setFirstName(callbackQuery.getFrom().getFirstName());
+        message.setLastName(callbackQuery.getFrom().getLastName());
         //  Коллбеки будут всегда в личных сообщениях. Пока
         message.setMessageType(MessageType.PRIVATE_COMMAND);
         return message;
