@@ -52,10 +52,10 @@ public class AnswerGenerator {
                     response.getRequestChatId(),
                     techResponse.getReplyText().getText());
 
-            if(ReplyText.REQUIRED_REPLY.contains(techResponse.getReplyText())) {
-                log.info("Добавляю большие кнопки для команды [{}]", techResponse.getReplyText().getText());
-                sendMessage.setReplyMarkup(BigButtonKeyboardReply.getKeyboardForText(techResponse.getReplyText()));
-            }
+//            if(ReplyText.REQUIRED_REPLY.contains(techResponse.getReplyText())) {
+//                log.info("Добавляю большие кнопки для команды [{}]", techResponse.getReplyText().getText());
+//                sendMessage.setReplyMarkup(BigButtonKeyboardReply.getKeyboardForText(techResponse.getReplyText()));
+//            }
 
             sendMessageList.add(sendMessage);
         }

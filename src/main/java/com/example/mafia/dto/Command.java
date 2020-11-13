@@ -15,6 +15,7 @@ public enum Command {
     START_GAME("/startgame"),
     FINISH_GAME("/finishgame"),
     INVITE("/invite"),
+    WANNA_INVITE("/wanna_invite"),
     KILL("/kill"),
     NEXT_PLAYER("/next_player"),
     ;

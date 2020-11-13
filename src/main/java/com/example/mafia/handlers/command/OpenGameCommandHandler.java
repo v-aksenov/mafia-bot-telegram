@@ -37,12 +37,12 @@ public class OpenGameCommandHandler implements CommandHandler {
 
         return HandleResponse.builder()
                 .success(true)
-                .gameResponse(generateGameResponse(message.getUserId(), techResponse.getReplyText()))
+                .gameResponse(generateGameResponse(message.getUserId(), techResponse))
                 .requestChatId(message.getUserId())
                 .build();
     }
 
-    private GameResponse generateGameResponse(String chatId, ReplyText replyText) {
+    private GameResponse generateGameResponse(String chatId, TechResponse techResponse) {
         AnswerVariant answerStartGame = new AnswerVariant(
                 Map.of(AnswerKey.COMMAND, Command.START_GAME.getCommand()),
                 "Начать игру");
@@ -53,8 +53,9 @@ public class OpenGameCommandHandler implements CommandHandler {
 
         GameMessage gameMessage = new GameMessage(
                 chatId,
-                replyText,
-                List.of(answerStartGame, answerFinishGame));
+                techResponse.getReplyText(),
+                techResponse.getBonusText());
+        gameMessage.setAnswerVariantList(List.of(answerStartGame, answerFinishGame) );
 
         return new GameResponse(List.of(gameMessage));
     }

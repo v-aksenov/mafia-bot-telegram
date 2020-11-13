@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public enum ReplyText {
     OPEN_GAME_EXIST("есть открытая или начатая игра"),
-    GAME_OPEN_SUCCESS("открыта новая игра"),
+    GAME_OPEN_SUCCESS("открыта новая игра. Номер игры [%s], по нему к вам могут присоединиться друзья"),
     FINISHING_BY_NOT_CREATOR("Игру пытается закончить не создатель"),
     FINISHED_BY_COMMAND("Игра завершена успешно"),
     GAME_NOT_FOUND("Не найдена запущенная игра в чате"),
@@ -46,6 +46,7 @@ public enum ReplyText {
     NO_INVITE_TARGET("Добавь игрока через ответ на сообщение игрока + твой текст /invite"),
     START_PRIVATE("Привет! Я бот для игры в мафию. Чтобы начать игру, добавь меня в чат."),
     YOU_SAYING("Твоя очередь говорить. Нажми кнопку чтобы передать слово следующему игроку"),
+    WANNA_INVITE("Для добавления к игре набери /invite + номер игры хоста. \n Пример /invite 13"),
     NEW_GAME_WANT("Для начала новой игры нажмите кнопку"),
     ;
 

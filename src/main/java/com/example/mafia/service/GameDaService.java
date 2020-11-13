@@ -25,8 +25,9 @@ public class GameDaService {
         return onlyOneGameInStatus(linkedChat, GameStatus.IN_PROCESS);
     }
 
-    public void saveGame(Game game) {
-        gameRepository.save(game);
+    public Long saveGame(Game game) {
+        Game save = gameRepository.save(game);
+        return save.getId();
     }
 
     private Optional<Game> onlyOneGameInStatus(String linkedChat, GameStatus status) {

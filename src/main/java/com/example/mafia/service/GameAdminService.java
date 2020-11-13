@@ -33,9 +33,9 @@ public class GameAdminService {
 
         Game game = new Game(firstPlayer, linkedChat);
         playerService.addPlayer(firstPlayer);
-        gameDaService.saveGame(game);
-        log.info("Для чата [{}] открыта новая игра", linkedChat);
-        return new TechResponse(true, ReplyText.GAME_OPEN_SUCCESS);
+        Long gameId = gameDaService.saveGame(game);
+        log.info("Для чата [{}] открыта новая игра, Id [{}]", linkedChat, gameId);
+        return new TechResponse(true, ReplyText.GAME_OPEN_SUCCESS, gameId.toString());
     }
 
     public TechResponse startGame(String linkedChat, String starterId) {

@@ -34,7 +34,8 @@ public class HandlersConfiguration {
                                                           FinishCommandHandler finishCommandHandler,
                                                           NextPlayerCommandHandler nextPlayerCommandHandler,
                                                           KillCommandHandler killCommandHandler,
-                                                          StartPrivateHandler startPrivateHandler) {
+                                                          StartPrivateHandler startPrivateHandler,
+                                                          WannaInviteCommandHandler wannaInviteCommandHandler) {
         return Map.of(
                 Command.OPEN_GAME, openGameCommandHandler,
                 Command.START_GAME, startGameCommandHandler,
@@ -42,7 +43,8 @@ public class HandlersConfiguration {
                 Command.FINISH_GAME, finishCommandHandler,
                 Command.NEXT_PLAYER, nextPlayerCommandHandler,
                 Command.KILL, killCommandHandler,
-                Command.START, startPrivateHandler
+                Command.START, startPrivateHandler,
+                Command.WANNA_INVITE, wannaInviteCommandHandler
                 );
     }
 
