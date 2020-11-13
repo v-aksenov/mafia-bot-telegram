@@ -24,7 +24,7 @@ public class UpdateHandler {
             return messageHandler.handleMessage(message);
         } catch (Exception e) {
             log.info("при обработке сообщения произшел несчастный случай: {}:\n{}", e.getClass().getName(), e.getMessage());
-            return HandleResponse.withError(message.getChatId());
+            return HandleResponse.withError(message.getUserId());
         }
     }
 }

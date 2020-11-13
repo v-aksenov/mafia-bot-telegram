@@ -24,10 +24,10 @@ public class NextPlayerCommandHandler implements CommandHandler {
     public HandleResponse handleCommand(Message message) {
         log.info("обрабатываю команду NEXT_PLAYER");
         List<GameMessage> gameMessages = gameActionExecutorService
-                .executeActions(message.getChatId(), List.of(Action.NEXT_PLAYER_SAYING));
+                .executeActions(message.getUserId(), List.of(Action.NEXT_PLAYER_SAYING));
         if(gameMessages.get(0).getReplyText().equals(ReplyText.LAST_SAID)) {
             gameMessages.addAll(gameActionExecutorService
-                    .executeActions(message.getChatId(), List.of(Action.CHANGE_DAY_STATE)));
+                    .executeActions(message.getUserId(), List.of(Action.CHANGE_DAY_STATE)));
         }
         return HandleResponse.builder()
                 .success(true)

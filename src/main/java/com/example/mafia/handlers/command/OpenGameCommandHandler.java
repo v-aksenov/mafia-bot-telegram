@@ -37,7 +37,6 @@ public class OpenGameCommandHandler implements CommandHandler {
 
         return HandleResponse.builder()
                 .success(true)
-                .techResponse(techResponse)
                 .gameResponse(generateGameResponse(message.getUserId(), techResponse.getReplyText()))
                 .requestChatId(message.getUserId())
                 .build();

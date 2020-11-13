@@ -30,9 +30,8 @@ public class FinishCommandHandler implements CommandHandler {
         log.info("Завершение игры успешно: [{}]", techResponse.isSuccess());
         return HandleResponse.builder()
                 .success(true)
-                .techResponse(techResponse)
                 .gameResponse(generateGameResponse(message.getUserId(), techResponse.getReplyText()))
-                .requestChatId(message.getChatId())
+                .requestChatId(message.getUserId())
                 .build();
     }
 
