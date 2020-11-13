@@ -61,13 +61,15 @@ public class MessageParser {
 
     private Message parseLikeCallback(CallbackQuery callbackQuery) {
         Message message = new Message();
-        Map<AnswerKey, String> decoded = CallbackEncoder.decode(callbackQuery.getMessage().getReplyMarkup().getKeyboard().get(0).get(0).getCallbackData());
+        Map<AnswerKey, String> decoded = CallbackEncoder.decode(callbackQuery.getData());
         Command command = extractCommand(Objects.requireNonNull(decoded.get(AnswerKey.COMMAND)));
         message.setCommand(command);
-        String chatId = Objects.requireNonNull(decoded.get(AnswerKey.RELATED_GAME));
-        String targetId = Objects.requireNonNull(decoded.get(AnswerKey.TARGET));
+        String chatId = decoded.get(AnswerKey.RELATED_GAME);
+        String targetId = decoded.get(AnswerKey.TARGET);
         message.setUserId(callbackQuery.getFrom().getId().toString());
         message.setReplyToMessage(new ReplyToMessage(targetId, chatId));
+        message.setFirstName(callbackQuery.getFrom().getFirstName());
+        message.setLastName(callbackQuery.getFrom().getLastName());
         //  Коллбеки будут всегда в личных сообщениях. Пока
         message.setMessageType(MessageType.PRIVATE_COMMAND);
         return message;
