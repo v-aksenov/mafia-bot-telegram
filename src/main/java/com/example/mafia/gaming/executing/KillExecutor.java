@@ -1,14 +1,13 @@
 package com.example.mafia.gaming.executing;
 
+import com.example.mafia.dto.Command;
 import com.example.mafia.dto.ReplyText;
-import com.example.mafia.gaming.Game;
-import com.example.mafia.gaming.GameMessage;
-import com.example.mafia.gaming.GameStatus;
-import com.example.mafia.gaming.Player;
+import com.example.mafia.gaming.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class KillExecutor {
@@ -20,7 +19,7 @@ public class KillExecutor {
             targetPlayer.kill();
             List<GameMessage> killMessages = new ArrayList<>();
             killMessages.add(new GameMessage(initiator, ReplyText.SHOOT));
-            killMessages.add(new GameMessage(target, ReplyText.YOU_LYNCHED));
+            killMessages.add(new GameMessage(target, ReplyText.YOU_KILLED));
             killMessages.add(new GameMessage(game.getLinkedChat(), ReplyText.PLAYER_KILLED, targetPlayer.getName()));
             WinLostChecker.Winner winner = WinLostChecker.winnerExist(game.getPlayerList());
             if (winner != null) {
@@ -30,6 +29,14 @@ public class KillExecutor {
                 } else {
                     killMessages.add(new GameMessage(game.getLinkedChat(), ReplyText.CITIZEN_WON));
                 }
+
+                GameMessage newGame = new GameMessage(game.getLinkedChat(), ReplyText.NEW_GAME_WANT);
+                newGame.setAnswerVariantList(List.of(new AnswerVariant(
+                        Map.of(AnswerKey.COMMAND, Command.OPEN_GAME.getCommand()),
+                        "Открыть новую игру"
+                )));
+
+                killMessages.add(newGame);
             }
             return killMessages;
         } else {
