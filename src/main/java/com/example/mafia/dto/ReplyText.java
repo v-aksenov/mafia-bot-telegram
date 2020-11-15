@@ -51,6 +51,10 @@ public enum ReplyText {
     WANNA_BE_INVITED("Хост игры получил уведомление о том, что вы хотите вступить. Подождите его решения"),
     HOST_NOT_FOUND("Игра с номером %s не найдена"),
     HOST_WANNA_INVITE_NOTIFICATION("Игрок %s хочет вступить в вашу игру. Принять?"),
+    JOIN_ACCEPTED_HOST("Вы подтвердили приглашение игрока"),
+    JOIN_ACCEPTED_TARGET("Ваше приглашение к игре принято"),
+    JOIN_DECLINED_HOST("Вы отклонили приглашение игрока"),
+    JOIN_DECLINED_TARGET("Ваше приглашение к игре отклонено"),
     ;
 
     public static List<ReplyText> REQUIRED_REPLY = List.of(
