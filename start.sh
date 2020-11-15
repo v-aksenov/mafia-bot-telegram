@@ -1,0 +1,1 @@
+nohup java -jar mafia/mafia-0.0.1-SNAPSHOT.jar &
