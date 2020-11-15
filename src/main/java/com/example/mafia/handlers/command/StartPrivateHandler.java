@@ -4,7 +4,6 @@ import com.example.mafia.dto.Command;
 import com.example.mafia.dto.HandleResponse;
 import com.example.mafia.dto.Message;
 import com.example.mafia.dto.ReplyText;
-import com.example.mafia.dto.TechResponse;
 import com.example.mafia.gaming.AnswerKey;
 import com.example.mafia.gaming.AnswerVariant;
 import com.example.mafia.gaming.GameMessage;
@@ -38,7 +37,7 @@ public class StartPrivateHandler implements CommandHandler {
                 "Открыть новую игру"
         );
         AnswerVariant answerInvite = new AnswerVariant(
-                Map.of(AnswerKey.COMMAND, Command.WANNA_INVITE.getCommand()),
+                Map.of(AnswerKey.COMMAND, Command.WANNA_JOIN.getCommand()),
                 "Присоединиться к игре"
         );
         GameMessage gameMessage = new GameMessage(chatId, ReplyText.START_PRIVATE, List.of(answerOpenGame, answerInvite));

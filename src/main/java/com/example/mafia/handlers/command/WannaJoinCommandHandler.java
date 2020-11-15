@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class WannaInviteCommandHandler implements CommandHandler {
+public class WannaJoinCommandHandler implements CommandHandler {
 
     @Override
     public HandleResponse handleCommand(Message message) {
-        log.info("обрабатываю команду WANNA_INVITE");
+        log.info("обрабатываю команду WANNA_JOIN");
         return HandleResponse.builder()
                 .success(true)
-                .techResponse(new TechResponse(true, ReplyText.WANNA_INVITE))
+                .techResponse(new TechResponse(true, ReplyText.WANNA_JOIN))
                 .requestChatId(message.getUserId())
                 .build();
     }

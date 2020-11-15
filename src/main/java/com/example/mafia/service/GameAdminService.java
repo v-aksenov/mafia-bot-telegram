@@ -83,11 +83,20 @@ public class GameAdminService {
         return new TechResponse(true, ReplyText.INVITE_SUCCESS);
     }
 
+    public TechResponse inviteCandidate(String userId, Long gameId) {
+        log.info("Игрок [{}] хочет вступить в игру [{}]", userId, gameId);
+        Game openGameWithId = gameDaService.findOpenGameWithId(gameId);
+        if (openGameWithId != null) {
+            return new TechResponse(true, ReplyText.WANNA_BE_INVITED).withHostChatId(openGameWithId.getLinkedChat());
+        } else
+            return new TechResponse(false, ReplyText.HOST_NOT_FOUND, gameId.toString());
+    }
+
     public TechResponse finishGame(String linkedChat, String userId) {
         log.info("Закончить игру в чате [{}] вызван игроком [{}]", linkedChat, userId);
         try {
             Game game = gameDaService.findProcessingGame(linkedChat).orElseThrow();
-            if(!userId.equals(game.getCreator().getUserId())) {
+            if (!userId.equals(game.getCreator().getUserId())) {
                 log.info("Игру пытается закончить не создатель");
                 return new TechResponse(false, ReplyText.FINISHING_BY_NOT_CREATOR);
             }

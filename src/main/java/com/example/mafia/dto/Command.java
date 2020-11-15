@@ -2,7 +2,6 @@ package com.example.mafia.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +14,11 @@ public enum Command {
     START_GAME("/startgame"),
     FINISH_GAME("/finishgame"),
     INVITE("/invite"),
+    JOIN_ACCEPT("/join_accept"),
+    JOIN_DECLINE("/join_decline"),
     WANNA_INVITE("/wanna_invite"),
+    WANNA_JOIN("/wanna_join"),
+    JOIN("/join"),
     KILL("/kill"),
     NEXT_PLAYER("/next_player"),
     ;
@@ -25,7 +28,7 @@ public enum Command {
 
     public static Command withCommand(String command) {
         for (Command c : allCommands) {
-            if(command.equals(c.getCommand())) {
+            if (command.equals(c.getCommand())) {
                 return c;
             }
         }

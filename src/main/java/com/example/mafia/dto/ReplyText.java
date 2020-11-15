@@ -46,8 +46,11 @@ public enum ReplyText {
     NO_INVITE_TARGET("Добавь игрока через ответ на сообщение игрока + твой текст /invite"),
     START_PRIVATE("Привет! Я бот для игры в мафию. Чтобы начать игру, добавь меня в чат."),
     YOU_SAYING("Твоя очередь говорить. Нажми кнопку чтобы передать слово следующему игроку"),
-    WANNA_INVITE("Для добавления к игре набери /invite + номер игры хоста. \n Пример /invite 13"),
+    WANNA_JOIN("Для добавления к игре набери " + Command.JOIN.getCommand() + " + номер игры хоста. \n Пример " + Command.JOIN.getCommand() + " 13"),
     NEW_GAME_WANT("Для начала новой игры нажмите кнопку"),
+    WANNA_BE_INVITED("Хост игры получил уведомление о том, что вы хотите вступить. Подождите его решения"),
+    HOST_NOT_FOUND("Игра с номером %s не найдена"),
+    HOST_WANNA_INVITE_NOTIFICATION("Игрок %s хочет вступить в вашу игру. Принять?"),
     ;
 
     public static List<ReplyText> REQUIRED_REPLY = List.of(

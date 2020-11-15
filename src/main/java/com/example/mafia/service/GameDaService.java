@@ -21,6 +21,17 @@ public class GameDaService {
         return onlyOneGameInStatus(linkedChat, GameStatus.OPEN);
     }
 
+    public Game findOpenGameWithId(Long gameId) {
+        Optional<Game> one = gameRepository.findById(gameId);
+        if (one.isPresent() && GameStatus.OPEN.equals(one.get().getStatus())) {
+            log.info("Нашили OPEN игру с id [{}]", gameId);
+            return one.get();
+        }
+
+        log.info("Не нашли OPEN игру с id [{}]", gameId);
+        return null;
+    }
+
     public Optional<Game> findProcessingGame(String linkedChat) {
         return onlyOneGameInStatus(linkedChat, GameStatus.IN_PROCESS);
     }
