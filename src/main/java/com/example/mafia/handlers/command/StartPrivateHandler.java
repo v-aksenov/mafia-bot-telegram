@@ -4,7 +4,6 @@ import com.example.mafia.dto.Command;
 import com.example.mafia.dto.HandleResponse;
 import com.example.mafia.dto.Message;
 import com.example.mafia.dto.ReplyText;
-import com.example.mafia.dto.TechResponse;
 import com.example.mafia.gaming.AnswerKey;
 import com.example.mafia.gaming.AnswerVariant;
 import com.example.mafia.gaming.GameMessage;
@@ -26,8 +25,8 @@ public class StartPrivateHandler implements CommandHandler {
         log.info("обрабатываю команду START");
         return HandleResponse.builder()
                 .success(true)
-                .requestChatId(message.getChatId())
-                .recipientChatId(message.getChatId())
+                .requestChatId(message.getUserId())
+                .recipientChatId(message.getUserId())
                 .gameResponse(generateGameResponse(message.getUserId()))
                 .build();
     }
@@ -37,7 +36,11 @@ public class StartPrivateHandler implements CommandHandler {
                 Map.of(AnswerKey.COMMAND, Command.OPEN_GAME.getCommand()),
                 "Открыть новую игру"
         );
-        GameMessage gameMessage = new GameMessage(chatId, ReplyText.START_PRIVATE, List.of(answerOpenGame));
+        AnswerVariant answerInvite = new AnswerVariant(
+                Map.of(AnswerKey.COMMAND, Command.WANNA_JOIN.getCommand()),
+                "Присоединиться к игре"
+        );
+        GameMessage gameMessage = new GameMessage(chatId, ReplyText.START_PRIVATE, List.of(answerOpenGame, answerInvite));
         return new GameResponse(List.of(gameMessage));
     }
 }

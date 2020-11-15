@@ -14,7 +14,7 @@ public class NextSayingExecutor {
     public static List<GameMessage> nextSaying(Game game) {
         Player player = game.getCurrentAndIterate();
         if(player != null) {
-            return List.of(new GameMessage(game.getLinkedChat(), ReplyText.PLAYER_SAYING, game.getCurrentAndIterate().getName()));
+            return List.of(new GameMessage(game.getLinkedChat(), ReplyText.PLAYER_SAYING, player.getName()));
         } else {
             return List.of(new GameMessage(game.getLinkedChat(), ReplyText.LAST_SAID));
         }

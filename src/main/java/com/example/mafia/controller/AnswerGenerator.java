@@ -1,7 +1,6 @@
 package com.example.mafia.controller;
 
 import com.example.mafia.dto.HandleResponse;
-import com.example.mafia.dto.ReplyText;
 import com.example.mafia.dto.TechResponse;
 import com.example.mafia.gaming.AnswerVariant;
 import com.example.mafia.gaming.GameMessage;
@@ -48,14 +47,13 @@ public class AnswerGenerator {
         List<SendMessage> sendMessageList = new ArrayList<>();
         if (response.getTechResponse() != null) {
             TechResponse techResponse = response.getTechResponse();
-            SendMessage sendMessage = new SendMessage(
-                    response.getRequestChatId(),
-                    techResponse.getReplyText().getText());
-
-            if(ReplyText.REQUIRED_REPLY.contains(techResponse.getReplyText())) {
-                log.info("Добавляю большие кнопки для команды [{}]", techResponse.getReplyText().getText());
-                sendMessage.setReplyMarkup(BigButtonKeyboardReply.getKeyboardForText(techResponse.getReplyText()));
-            }
+            SendMessage sendMessage = techResponse.getBonusText() != null ?
+                    new SendMessage(
+                            response.getRequestChatId(),
+                            String.format(techResponse.getReplyText().getText(), techResponse.getBonusText())) :
+                    new SendMessage(
+                            response.getRequestChatId(),
+                            techResponse.getReplyText().getText());
 
             sendMessageList.add(sendMessage);
         }

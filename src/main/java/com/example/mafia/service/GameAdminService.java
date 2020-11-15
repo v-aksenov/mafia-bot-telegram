@@ -21,7 +21,7 @@ public class GameAdminService {
     private final GameDaService gameDaService;
     private final PlayerService playerService;
 
-    private final Integer minPlayerAmount = 3;
+    private final Integer minPlayerAmount = 1;
 
     public TechResponse openGame(String linkedChat, Player firstPlayer) {
         Optional<Game> openGame = gameDaService.findOpenGame(linkedChat);
@@ -33,9 +33,9 @@ public class GameAdminService {
 
         Game game = new Game(firstPlayer, linkedChat);
         playerService.addPlayer(firstPlayer);
-        gameDaService.saveGame(game);
-        log.info("Для чата [{}] открыта новая игра", linkedChat);
-        return new TechResponse(true, ReplyText.GAME_OPEN_SUCCESS);
+        Long gameId = gameDaService.saveGame(game);
+        log.info("Для чата [{}] открыта новая игра, Id [{}]", linkedChat, gameId);
+        return new TechResponse(true, ReplyText.GAME_OPEN_SUCCESS, gameId.toString());
     }
 
     public TechResponse startGame(String linkedChat, String starterId) {
@@ -65,13 +65,13 @@ public class GameAdminService {
 
     private boolean gameReadyToStart(Game game, String starterId) {
         return game.getCreator().getUserId().equals(starterId)
-                && minPlayerAmount.compareTo(game.getPlayerList().size()) > 0;
+                && minPlayerAmount.compareTo(game.getPlayerList().size()) < 0;
     }
 
-    public TechResponse invitePlayer(String linkedChat, String userId) {
-        log.info("Добавляю в игру в чате [{}] нового игрока [{}]", linkedChat, userId);
+    public TechResponse invitePlayer(String linkedChat, Player player) {
+        log.info("Добавляю в игру в чате [{}] нового игрока [{}]", linkedChat, player.getUserId());
         try {
-            Player player = playerService.findPlayer(userId).orElseThrow();
+            playerService.addPlayer(player);
             Game game = gameDaService.findOpenGame(linkedChat).orElseThrow();
             game.getPlayerList().add(player);
             gameDaService.saveGame(game);
@@ -83,11 +83,20 @@ public class GameAdminService {
         return new TechResponse(true, ReplyText.INVITE_SUCCESS);
     }
 
+    public TechResponse inviteCandidate(String userId, Long gameId) {
+        log.info("Игрок [{}] хочет вступить в игру [{}]", userId, gameId);
+        Game openGameWithId = gameDaService.findOpenGameWithId(gameId);
+        if (openGameWithId != null) {
+            return new TechResponse(true, ReplyText.WANNA_BE_INVITED).withHostChatId(openGameWithId.getLinkedChat());
+        } else
+            return new TechResponse(false, ReplyText.HOST_NOT_FOUND, gameId.toString());
+    }
+
     public TechResponse finishGame(String linkedChat, String userId) {
         log.info("Закончить игру в чате [{}] вызван игроком [{}]", linkedChat, userId);
         try {
             Game game = gameDaService.findProcessingGame(linkedChat).orElseThrow();
-            if(!userId.equals(game.getCreator().getUserId())) {
+            if (!userId.equals(game.getCreator().getUserId())) {
                 log.info("Игру пытается закончить не создатель");
                 return new TechResponse(false, ReplyText.FINISHING_BY_NOT_CREATOR);
             }

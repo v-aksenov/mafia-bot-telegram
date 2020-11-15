@@ -7,6 +7,7 @@ import com.example.mafia.handlers.message.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
@@ -34,16 +35,25 @@ public class HandlersConfiguration {
                                                           FinishCommandHandler finishCommandHandler,
                                                           NextPlayerCommandHandler nextPlayerCommandHandler,
                                                           KillCommandHandler killCommandHandler,
-                                                          StartPrivateHandler startPrivateHandler) {
-        return Map.of(
-                Command.OPEN_GAME, openGameCommandHandler,
-                Command.START_GAME, startGameCommandHandler,
-                Command.INVITE, inviteCommandHandler,
-                Command.FINISH_GAME, finishCommandHandler,
-                Command.NEXT_PLAYER, nextPlayerCommandHandler,
-                Command.KILL, killCommandHandler,
-                Command.START, startPrivateHandler
-                );
+                                                          StartPrivateHandler startPrivateHandler,
+                                                          WannaJoinCommandHandler wannaJoinCommandHandler,
+                                                          JoinCommandHandler joinCommandHandler,
+                                                          JoinAcceptCommandHandler joinAcceptCommandHandler,
+                                                          JoinDeclineCommandHandler joinDeclineCommandHandler) {
+        Map<Command, CommandHandler> map = new HashMap<>();
+        map.put(Command.OPEN_GAME, openGameCommandHandler);
+        map.put(Command.START_GAME, startGameCommandHandler);
+        map.put(Command.INVITE, inviteCommandHandler);
+        map.put(Command.FINISH_GAME, finishCommandHandler);
+        map.put(Command.NEXT_PLAYER, nextPlayerCommandHandler);
+        map.put(Command.KILL, killCommandHandler);
+        map.put(Command.START, startPrivateHandler);
+        map.put(Command.WANNA_JOIN, wannaJoinCommandHandler);
+        map.put(Command.JOIN, joinCommandHandler);
+        map.put(Command.JOIN_ACCEPT, joinAcceptCommandHandler);
+        map.put(Command.JOIN_DECLINE, joinDeclineCommandHandler);
+
+        return map;
     }
 
 

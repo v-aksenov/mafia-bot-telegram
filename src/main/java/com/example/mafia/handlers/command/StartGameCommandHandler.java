@@ -3,9 +3,9 @@ package com.example.mafia.handlers.command;
 import com.example.mafia.dto.*;
 import com.example.mafia.gaming.AnswerKey;
 import com.example.mafia.gaming.AnswerVariant;
-import com.example.mafia.gaming.executing.Action;
 import com.example.mafia.gaming.GameMessage;
 import com.example.mafia.gaming.GameResponse;
+import com.example.mafia.gaming.executing.Action;
 import com.example.mafia.service.GameActionExecutorService;
 import com.example.mafia.service.GameAdminService;
 import lombok.AllArgsConstructor;
@@ -27,13 +27,19 @@ public class StartGameCommandHandler implements CommandHandler {
     public HandleResponse handleCommand(Message message) {
         log.info("обрабатываю команду START_GAME");
         TechResponse techResponse = gameAdminService.startGame(message.getUserId(), message.getUserId());
-        List<GameMessage> gameMessages = gameActionExecutorService
-                .executeActions(message.getUserId(), List.of(Action.HELLO_ACTION));
-        gameMessages.add(generateGameMessageForAdmin(message.getUserId(), techResponse.getReplyText()));
+        if (techResponse.isSuccess()) {
+            List<GameMessage> gameMessages = gameActionExecutorService
+                    .executeActions(message.getUserId(), List.of(Action.HELLO_ACTION));
+            gameMessages.add(generateGameMessageForAdmin(message.getUserId(), techResponse.getReplyText()));
+            return HandleResponse.builder()
+                    .success(true)
+                    .requestChatId(message.getUserId())
+                    .gameResponse(new GameResponse(gameMessages))
+                    .build();
+        }
         return HandleResponse.builder()
                 .success(true)
                 .requestChatId(message.getUserId())
-                .gameResponse(new GameResponse(gameMessages))
                 .build();
     }
 
