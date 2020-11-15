@@ -3,10 +3,8 @@ package com.example.mafia.handlers.command;
 import com.example.mafia.dto.*;
 import com.example.mafia.gaming.*;
 import com.example.mafia.service.GameAdminService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,13 +16,13 @@ import java.util.Map;
 public class JoinAcceptCommandHandler implements CommandHandler {
 
     private final GameAdminService gameAdminService;
-    private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public HandleResponse handleCommand(Message message) {
         log.info("обрабатываю команду JOIN_ACCEPT");
-        String playerToJoinString = StringUtils.substringAfter(message.getText(), Command.JOIN_ACCEPT.getCommand() + " ");
-        Player player = mapper.convertValue(playerToJoinString, Player.class);
+        Player player = new Player();
+        player.setUserId(message.getTargetChatId());
+        player.setName(message.getTargetName());
         TechResponse techResponse = gameAdminService.invitePlayer(message.getUserId(), player);
 
         if (techResponse.isSuccess()) {

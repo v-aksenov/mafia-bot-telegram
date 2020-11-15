@@ -28,7 +28,7 @@ public class ChatTextMessageHandler implements MessageHandler {
 
     private Player playerFromMessage(Message message) {
         Player player = new Player();
-        player.setName(message.getFirstName() + " " + message.getLastName());
+        player.setName(message.getFirstName());
         player.setUserId(message.getUserId());
         return player;
     }

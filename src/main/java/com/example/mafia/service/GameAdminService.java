@@ -21,7 +21,7 @@ public class GameAdminService {
     private final GameDaService gameDaService;
     private final PlayerService playerService;
 
-    private final Integer minPlayerAmount = 3;
+    private final Integer minPlayerAmount = 1;
 
     public TechResponse openGame(String linkedChat, Player firstPlayer) {
         Optional<Game> openGame = gameDaService.findOpenGame(linkedChat);
@@ -65,12 +65,13 @@ public class GameAdminService {
 
     private boolean gameReadyToStart(Game game, String starterId) {
         return game.getCreator().getUserId().equals(starterId)
-                && minPlayerAmount.compareTo(game.getPlayerList().size()) > 0;
+                && minPlayerAmount.compareTo(game.getPlayerList().size()) < 0;
     }
 
     public TechResponse invitePlayer(String linkedChat, Player player) {
         log.info("Добавляю в игру в чате [{}] нового игрока [{}]", linkedChat, player.getUserId());
         try {
+            playerService.addPlayer(player);
             Game game = gameDaService.findOpenGame(linkedChat).orElseThrow();
             game.getPlayerList().add(player);
             gameDaService.saveGame(game);

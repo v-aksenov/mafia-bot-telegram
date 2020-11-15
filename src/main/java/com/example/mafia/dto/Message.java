@@ -14,4 +14,7 @@ public class Message {
     private String firstName;
     private String lastName;
     private ReplyToMessage replyToMessage;
+
+    private String targetName;
+    private String targetChatId;
 }

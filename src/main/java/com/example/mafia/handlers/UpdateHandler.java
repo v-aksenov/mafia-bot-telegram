@@ -23,7 +23,7 @@ public class UpdateHandler {
             log.info("Для сообщения типа [{}] найден handler [{}]", message.getMessageType(), messageHandler);
             return messageHandler.handleMessage(message);
         } catch (Exception e) {
-            log.info("при обработке сообщения произшел несчастный случай: {}:\n{}", e.getClass().getName(), e.getMessage());
+            log.info("при обработке сообщения произшел несчастный случай: {}:\n{}", e.getClass().getName(), e.getStackTrace());
             return HandleResponse.withError(message.getUserId());
         }
     }
