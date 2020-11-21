@@ -34,6 +34,7 @@ public class KillCommandHandler implements CommandHandler {
                 .build();
         List<GameMessage> gameMessages = gameActionExecutorService.executeAction(replyToMessage.getChatId(), action);
         if (!gameMessages.get(0).getReplyText().equals(ReplyText.CITIZEN_ALREADY_DEAD) && needToContinue(gameMessages)) {
+            log.info("После убийства игрока игра продолжается. Начинаем день");
             gameMessages.addAll(gameActionExecutorService.executeAction(replyToMessage.getChatId(), Action.CHANGE_DAY_STATE));
         }
         return HandleResponse.builder()

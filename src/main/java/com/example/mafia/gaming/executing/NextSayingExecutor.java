@@ -3,6 +3,7 @@ package com.example.mafia.gaming.executing;
 import com.example.mafia.dto.Command;
 import com.example.mafia.dto.ReplyText;
 import com.example.mafia.gaming.*;
+import com.example.mafia.utils.NotificationGenerator;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -16,7 +17,14 @@ public class NextSayingExecutor {
         if (player != null) {
             log.info("игра [{}]: слово за игроком [{}]", game.getLinkedChat(), player.getName());
             Player nextSayerCandidate = game.getNextSayerCandidate();
-            return List.of(generateMessageForNextSaying(player, nextSayerCandidate));
+            List<GameMessage> gameMessageList = NotificationGenerator.generate(
+                    game.getAlivePlayers(),
+                    List.of(player),
+                    ReplyText.PLAYER_SAYING,
+                    player.getName()
+            );
+            gameMessageList.add(generateMessageForNextSaying(player, nextSayerCandidate));
+            return gameMessageList;
         } else {
             log.info("игра [{}]: закончились кандидаты на разговорный круг", game.getLinkedChat());
             return List.of(new GameMessage(game.getLinkedChat(), ReplyText.LAST_SAID));

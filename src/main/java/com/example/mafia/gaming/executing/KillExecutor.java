@@ -3,6 +3,7 @@ package com.example.mafia.gaming.executing;
 import com.example.mafia.dto.Command;
 import com.example.mafia.dto.ReplyText;
 import com.example.mafia.gaming.*;
+import com.example.mafia.utils.NotificationGenerator;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -20,14 +21,18 @@ public class KillExecutor {
             List<GameMessage> killMessages = new ArrayList<>();
             killMessages.add(new GameMessage(initiator, ReplyText.SHOOT));
             killMessages.add(new GameMessage(target, ReplyText.YOU_KILLED));
-            killMessages.add(new GameMessage(game.getLinkedChat(), ReplyText.PLAYER_KILLED, targetPlayer.getName()));
+            killMessages.addAll(NotificationGenerator.generate(
+                    game.getAlivePlayers(),
+                    List.of(game.getPlayerWithId(initiator)),
+                    ReplyText.PLAYER_KILLED,
+                    targetPlayer.getName()));
             WinLostChecker.Winner winner = WinLostChecker.winnerExist(game.getPlayerList());
             if (winner != null) {
                 game.setStatus(GameStatus.FINISHED);
                 if (winner.equals(WinLostChecker.Winner.MAFIA)) {
-                    killMessages.add(new GameMessage(game.getLinkedChat(), ReplyText.MAFIA_WON));
+                    killMessages.addAll(NotificationGenerator.generate(game.getPlayerList(), ReplyText.MAFIA_WON));
                 } else {
-                    killMessages.add(new GameMessage(game.getLinkedChat(), ReplyText.CITIZEN_WON));
+                    killMessages.addAll(NotificationGenerator.generate(game.getPlayerList(), ReplyText.CITIZEN_WON));
                 }
 
                 GameMessage newGame = new GameMessage(game.getLinkedChat(), ReplyText.NEW_GAME_WANT);

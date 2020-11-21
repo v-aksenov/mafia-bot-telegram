@@ -21,7 +21,7 @@ public class GameAdminService {
     private final GameDaService gameDaService;
     private final PlayerService playerService;
 
-    private final Integer minPlayerAmount = 1;
+    private final Integer minPlayerAmount = 2;
 
     public TechResponse openGame(String linkedChat, Player firstPlayer) {
         Optional<Game> openGame = gameDaService.findOpenGame(linkedChat);

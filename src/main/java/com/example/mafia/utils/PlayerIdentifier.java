@@ -43,7 +43,7 @@ public class PlayerIdentifier {
         Random random = new Random();
         int mafiaInt = 0;
         if (playerListSize > 1) {
-            mafiaInt = random.nextInt(playerListSize) - 1;
+            mafiaInt = random.nextInt(playerListSize - 1);
             log.info("Мафия будет игрок под номером [{}]", mafiaInt);
         }
         return mafiaInt;
