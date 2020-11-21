@@ -31,10 +31,10 @@ public class KillExecutor {
                 }
 
                 GameMessage newGame = new GameMessage(game.getLinkedChat(), ReplyText.NEW_GAME_WANT);
-                newGame.setAnswerVariantList(List.of(new AnswerVariant(
+                newGame.setAnswerVariantMap(Map.of(0, List.of(new AnswerVariant(
                         Map.of(AnswerKey.COMMAND, Command.OPEN_GAME.getCommand()),
                         "Открыть новую игру"
-                )));
+                ))));
 
                 killMessages.add(newGame);
             }

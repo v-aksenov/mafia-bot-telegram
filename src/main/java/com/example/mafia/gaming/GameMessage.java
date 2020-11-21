@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class GameMessage {
     private final String chatId;
     private final ReplyText replyText;
     private String textInjection;
-    private List<AnswerVariant> answerVariantList;
+    private Map<Integer, List<AnswerVariant>> answerVariantMap;
 
     public GameMessage(String chatId, ReplyText replyText, String textInjection) {
         this.chatId = chatId;
@@ -23,9 +24,9 @@ public class GameMessage {
         this.textInjection = textInjection;
     }
 
-    public GameMessage(String chatId, ReplyText replyText, List<AnswerVariant> answerVariantList) {
+    public GameMessage(String chatId, ReplyText replyText, Map<Integer, List<AnswerVariant>> answerVariantMap) {
         this.chatId = chatId;
         this.replyText = replyText;
-        this.answerVariantList = answerVariantList;
+        this.answerVariantMap = answerVariantMap;
     }
 }

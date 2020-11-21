@@ -2,11 +2,7 @@ package com.example.mafia.gaming.executing;
 
 import com.example.mafia.dto.Command;
 import com.example.mafia.dto.ReplyText;
-import com.example.mafia.gaming.AnswerKey;
-import com.example.mafia.gaming.AnswerVariant;
-import com.example.mafia.gaming.Game;
-import com.example.mafia.gaming.GameMessage;
-import com.example.mafia.gaming.Player;
+import com.example.mafia.gaming.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -29,10 +25,8 @@ public class ToNightExecutor {
         return Stream.concat(gameMessages.stream(), mafiaKillMessages.stream()).collect(Collectors.toList());
     }
 
-    private static List<AnswerVariant> getAnswerVariantsToKill(Game game) {
-        return game.getAlivePlayers().stream()
-                // Пока предлагаем убить каждого (даже себя)
-//        return game.getAliveCitizen().stream()
+    private static Map<Integer, List<AnswerVariant>> getAnswerVariantsToKill(Game game) {
+        List<AnswerVariant> answerVariants = game.getAlivePlayers().stream()
                 .map(citizen -> new AnswerVariant(
                         Map.of(
                                 AnswerKey.COMMAND, Command.KILL.getCommand(),
@@ -41,5 +35,6 @@ public class ToNightExecutor {
                         ),
                         String.format(ReplyText.KILL_CANDIDATE.getText(), citizen.getName())))
                 .collect(Collectors.toList());
+        return Map.of(0, answerVariants);
     }
 }

@@ -23,9 +23,9 @@ public class SayHelloExecutor {
         helloMessages.add(new GameMessage(game.getLinkedChat(), ReplyText.PLAYER_SAYING, currentSpeaker.getName()));
 
         GameMessage youSayingMessage = new GameMessage(currentSpeaker.getUserId(), ReplyText.YOU_SAYING);
-        youSayingMessage.setAnswerVariantList(List.of(new AnswerVariant(
+        youSayingMessage.setAnswerVariantMap(Map.of(0, List.of(new AnswerVariant(
                 Map.of(AnswerKey.COMMAND, Command.NEXT_PLAYER.getCommand()),
-                "Передать слово следующему")));
+                "Передать слово следующему"))));
 
         helloMessages.add(youSayingMessage);
         return helloMessages;

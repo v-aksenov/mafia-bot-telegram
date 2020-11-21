@@ -52,7 +52,7 @@ public class StartGameCommandHandler implements CommandHandler {
         return new GameMessage(
                 chatId,
                 replyText,
-                List.of(answerFinishGame));
+                Map.of(0, List.of(answerFinishGame)));
     }
 
     private GameResponse generateNegativeGameResponse(String chatId, TechResponse techResponse) {
@@ -68,7 +68,7 @@ public class StartGameCommandHandler implements CommandHandler {
                 chatId,
                 techResponse.getReplyText(),
                 techResponse.getBonusText());
-        gameMessage.setAnswerVariantList(List.of(answerStartGame, answerFinishGame));
+        gameMessage.setAnswerVariantMap(Map.of(0, List.of(answerStartGame, answerFinishGame)));
 
         return new GameResponse(List.of(gameMessage));
     }

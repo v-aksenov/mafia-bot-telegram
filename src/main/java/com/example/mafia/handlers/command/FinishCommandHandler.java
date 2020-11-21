@@ -1,10 +1,6 @@
 package com.example.mafia.handlers.command;
 
-import com.example.mafia.dto.Command;
-import com.example.mafia.dto.HandleResponse;
-import com.example.mafia.dto.Message;
-import com.example.mafia.dto.ReplyText;
-import com.example.mafia.dto.TechResponse;
+import com.example.mafia.dto.*;
 import com.example.mafia.gaming.AnswerKey;
 import com.example.mafia.gaming.AnswerVariant;
 import com.example.mafia.gaming.GameMessage;
@@ -40,7 +36,7 @@ public class FinishCommandHandler implements CommandHandler {
                 Map.of(AnswerKey.COMMAND, Command.OPEN_GAME.getCommand()),
                 "Открыть новую игру"
         );
-        GameMessage gameMessage = new GameMessage(chatId, replyText, List.of(answerOpenGame));
+        GameMessage gameMessage = new GameMessage(chatId, replyText, Map.of(0, List.of(answerOpenGame)));
         return new GameResponse(List.of(gameMessage));
     }
 }
