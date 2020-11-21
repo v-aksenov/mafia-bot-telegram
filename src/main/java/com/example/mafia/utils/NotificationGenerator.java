@@ -24,11 +24,19 @@ public class NotificationGenerator {
     public static List<GameMessage> generate(List<Player> playerList, List<Player> except, ReplyText text, String placeholder) {
         List<GameMessage> gameMessageList = new ArrayList<>();
         playerList.forEach(player -> {
-            if (except != null && !except.contains(player)) {
+            if (allowToAdd(player, except)) {
                 gameMessageList.add(
                         new GameMessage(player.getUserId(), text, placeholder));
             }
         });
         return gameMessageList;
+    }
+
+    private static boolean allowToAdd(Player player, List<Player> except) {
+        if (except == null) {
+            return true;
+        }
+
+        return !except.contains(player);
     }
 }
