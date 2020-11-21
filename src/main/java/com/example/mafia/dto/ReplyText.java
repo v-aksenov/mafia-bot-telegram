@@ -14,7 +14,7 @@ public enum ReplyText {
     FINISHED_BY_COMMAND("Игра завершена успешно"),
     GAME_NOT_FOUND("Не найдена запущенная игра в чате"),
     NO_GAME_TO_START("Нет игры для начала"),
-    STARTING_NOT_BY_CREATOR("игру пытается стартануть не создатель"),
+    START_FAILED_MIN_PLAYERS("Для старта игры необходимо минимум %s игроков"),
     GAME_START_SUCCESS("Игра началась"),
     INVITE_ERROR("Не удалось добавить игрока"),
     INVITE_SUCCESS("Игрок добавлен"),

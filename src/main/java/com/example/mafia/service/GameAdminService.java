@@ -40,18 +40,18 @@ public class GameAdminService {
 
     public TechResponse startGame(String linkedChat, String starterId) {
         Optional<Game> gameToStart = gameDaService.findOpenGame(linkedChat);
-        if(gameToStart.isEmpty()) {
+        if (gameToStart.isEmpty()) {
             log.info("Получена команда начать игру из чата, в котором нет в статусе OPEN");
             return new TechResponse(false, ReplyText.NO_GAME_TO_START);
         }
 
         Game game = gameToStart.get();
-        if(gameReadyToStart(game, starterId)) {
+        if (gameReadyToStart(game, starterId)) {
             return doStartGameActions(game);
         }
 
-        log.info("Для чата [{}] игру пытается стартануть не создатель", linkedChat);
-        return new TechResponse(false, ReplyText.STARTING_NOT_BY_CREATOR);
+        log.info("Для чата [{}] не удалось стартануть игру", linkedChat);
+        return new TechResponse(false, ReplyText.START_FAILED_MIN_PLAYERS, minPlayerAmount.toString());
     }
 
     private TechResponse doStartGameActions(Game game) {
@@ -64,8 +64,10 @@ public class GameAdminService {
     }
 
     private boolean gameReadyToStart(Game game, String starterId) {
+        log.info("Получен запрос на старт игры [{}]. Количество участников [{}] из требуемых [{}]",
+                game.getLinkedChat(), game.getPlayerList().size(), minPlayerAmount);
         return game.getCreator().getUserId().equals(starterId)
-                && minPlayerAmount.compareTo(game.getPlayerList().size()) < 0;
+                && minPlayerAmount.compareTo(game.getPlayerList().size()) <= 0;
     }
 
     public TechResponse invitePlayer(String linkedChat, Player player) {
@@ -95,7 +97,7 @@ public class GameAdminService {
     public TechResponse finishGame(String linkedChat, String userId) {
         log.info("Закончить игру в чате [{}] вызван игроком [{}]", linkedChat, userId);
         try {
-            Game game = gameDaService.findProcessingGame(linkedChat).orElseThrow();
+            Game game = gameDaService.findOpenProcessingGame(linkedChat).orElseThrow();
             if (!userId.equals(game.getCreator().getUserId())) {
                 log.info("Игру пытается закончить не создатель");
                 return new TechResponse(false, ReplyText.FINISHING_BY_NOT_CREATOR);
