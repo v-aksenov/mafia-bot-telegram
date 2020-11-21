@@ -1,13 +1,16 @@
 package com.example.mafia.gaming.executing;
 
-import com.example.mafia.dto.Command;
 import com.example.mafia.dto.ReplyText;
-import com.example.mafia.gaming.*;
+import com.example.mafia.gaming.Game;
+import com.example.mafia.gaming.GameMessage;
+import com.example.mafia.gaming.Player;
+import com.example.mafia.gaming.Role;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+@Slf4j
 public class SayHelloExecutor {
 
     public static List<GameMessage> sayHelloAction(Game game) {
@@ -19,15 +22,10 @@ public class SayHelloExecutor {
         helloMessages.add(new GameMessage(game.getLinkedChat(), ReplyText.FIRST_DAY_STARTED));
 
         game.startDiscuss();
-        Player currentSpeaker = game.getCurrentAndIterate();
-        helloMessages.add(new GameMessage(game.getLinkedChat(), ReplyText.PLAYER_SAYING, currentSpeaker.getName()));
 
-        GameMessage youSayingMessage = new GameMessage(currentSpeaker.getUserId(), ReplyText.YOU_SAYING);
-        youSayingMessage.setAnswerVariantList(List.of(new AnswerVariant(
-                Map.of(AnswerKey.COMMAND, Command.NEXT_PLAYER.getCommand()),
-                "Передать слово следующему")));
+        List<GameMessage> nextSaying = NextSayingExecutor.nextSaying(game);
 
-        helloMessages.add(youSayingMessage);
+        helloMessages.addAll(nextSaying);
         return helloMessages;
     }
 }

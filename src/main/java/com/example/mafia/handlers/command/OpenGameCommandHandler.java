@@ -50,7 +50,7 @@ public class OpenGameCommandHandler implements CommandHandler {
                 chatId,
                 techResponse.getReplyText(),
                 techResponse.getBonusText());
-        gameMessage.setAnswerVariantList(List.of(answerStartGame, answerFinishGame) );
+        gameMessage.setAnswerVariantMap(Map.of(0, List.of(answerStartGame, answerFinishGame)));
 
         return new GameResponse(List.of(gameMessage));
     }

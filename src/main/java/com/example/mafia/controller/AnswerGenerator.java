@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -61,9 +62,9 @@ public class AnswerGenerator {
         if (response.getGameResponse() != null) {
             for (GameMessage message : response.getGameResponse().getMessageList()) {
                 SendMessage sendMessage = generateMessage(message);
-                if (!CollectionUtils.isEmpty(message.getAnswerVariantList())) {
+                if (!CollectionUtils.isEmpty(message.getAnswerVariantMap())) {
                     log.info("Добавляю варианты ответа");
-                    sendMessage.setReplyMarkup(generateReply(message.getAnswerVariantList()));
+                    sendMessage.setReplyMarkup(generateReply(message.getAnswerVariantMap()));
                 }
                 sendMessageList.add(sendMessage);
             }
@@ -72,15 +73,18 @@ public class AnswerGenerator {
         return sendMessageList;
     }
 
-    private ReplyKeyboard generateReply(List<AnswerVariant> answerVariantList) {
+    private ReplyKeyboard generateReply(Map<Integer, List<AnswerVariant>> answerVariantList) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        inlineKeyboardMarkup.setKeyboard(List.of(
-                answerVariantList.stream()
-                        .map(answerVariant -> new InlineKeyboardButton()
-                                .setText(answerVariant.getFrontText())
-                                .setCallbackData(CallbackEncoder.encode(answerVariant.getHiddenCommand())))
-                        .collect(Collectors.toList())
-        ));
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        for (Integer line : answerVariantList.keySet()) {
+            keyboard.add(answerVariantList.get(line).stream()
+                    .map(answerVariant -> new InlineKeyboardButton()
+                            .setText(answerVariant.getFrontText())
+                            .setCallbackData(CallbackEncoder.encode(answerVariant.getHiddenCommand())))
+                    .collect(Collectors.toList())
+            );
+        }
+        inlineKeyboardMarkup.setKeyboard(keyboard);
         return inlineKeyboardMarkup;
     }
 

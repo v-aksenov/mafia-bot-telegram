@@ -40,7 +40,10 @@ public class StartPrivateHandler implements CommandHandler {
                 Map.of(AnswerKey.COMMAND, Command.WANNA_JOIN.getCommand()),
                 "Присоединиться к игре"
         );
-        GameMessage gameMessage = new GameMessage(chatId, ReplyText.START_PRIVATE, List.of(answerOpenGame, answerInvite));
+        GameMessage gameMessage = new GameMessage(
+                chatId,
+                ReplyText.START_PRIVATE,
+                Map.of(0, List.of(answerOpenGame, answerInvite)));
         return new GameResponse(List.of(gameMessage));
     }
 }

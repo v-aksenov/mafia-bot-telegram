@@ -49,7 +49,7 @@ public class JoinDeclineCommandHandler implements CommandHandler {
         GameMessage gameMessage = new GameMessage(
                 hostChatId,
                 ReplyText.JOIN_DECLINED_HOST);
-        gameMessage.setAnswerVariantList(List.of(answerStartGame, answerFinishGame));
+        gameMessage.setAnswerVariantMap(Map.of(0, List.of(answerStartGame, answerFinishGame)));
         return gameMessage;
     }
 

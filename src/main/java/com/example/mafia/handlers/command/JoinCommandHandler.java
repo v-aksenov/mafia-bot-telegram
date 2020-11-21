@@ -60,7 +60,7 @@ public class JoinCommandHandler implements CommandHandler {
                 "Отказать " + player.getName()
         );
         GameMessage gameMessage = new GameMessage(hostChatId, ReplyText.HOST_WANNA_INVITE_NOTIFICATION, player.getName());
-        gameMessage.setAnswerVariantList(List.of(inviteAcceptAnswer, inviteDeclineAnswer));
+        gameMessage.setAnswerVariantMap(Map.of(0, List.of(inviteAcceptAnswer, inviteDeclineAnswer)));
         return new GameResponse(List.of(gameMessage));
     }
 }
