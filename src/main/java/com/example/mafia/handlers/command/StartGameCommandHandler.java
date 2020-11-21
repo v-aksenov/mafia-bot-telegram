@@ -40,6 +40,7 @@ public class StartGameCommandHandler implements CommandHandler {
         return HandleResponse.builder()
                 .success(true)
                 .requestChatId(message.getUserId())
+                .gameResponse(generateNegativeGameResponse(message.getUserId(), techResponse))
                 .build();
     }
 
@@ -52,5 +53,23 @@ public class StartGameCommandHandler implements CommandHandler {
                 chatId,
                 replyText,
                 List.of(answerFinishGame));
+    }
+
+    private GameResponse generateNegativeGameResponse(String chatId, TechResponse techResponse) {
+        AnswerVariant answerStartGame = new AnswerVariant(
+                Map.of(AnswerKey.COMMAND, Command.START_GAME.getCommand()),
+                "Начать игру");
+
+        AnswerVariant answerFinishGame = new AnswerVariant(
+                Map.of(AnswerKey.COMMAND, Command.FINISH_GAME.getCommand()),
+                "Завершить игру");
+
+        GameMessage gameMessage = new GameMessage(
+                chatId,
+                techResponse.getReplyText(),
+                techResponse.getBonusText());
+        gameMessage.setAnswerVariantList(List.of(answerStartGame, answerFinishGame));
+
+        return new GameResponse(List.of(gameMessage));
     }
 }

@@ -36,6 +36,17 @@ public class GameDaService {
         return onlyOneGameInStatus(linkedChat, GameStatus.IN_PROCESS);
     }
 
+    public Optional<Game> findOpenProcessingGame(String linkedChat) {
+        Optional<Game> processingGame = onlyOneGameInStatus(linkedChat, GameStatus.IN_PROCESS);
+        if (processingGame.isPresent()) {
+            log.info("Нашел игру IN_PROCESS для чата [{}]", linkedChat);
+            return processingGame;
+        } else {
+            log.info("Нашел игру OPEN для чата [{}]", linkedChat);
+            return onlyOneGameInStatus(linkedChat, GameStatus.OPEN);
+        }
+    }
+
     public Long saveGame(Game game) {
         Game save = gameRepository.save(game);
         return save.getId();
