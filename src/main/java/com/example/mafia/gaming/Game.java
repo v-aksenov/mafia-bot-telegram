@@ -46,24 +46,31 @@ public class Game {
     }
 
     public Player getCurrentAndIterate() {
-        return getNextAlivePlayer();
-    }
-
-    private Player getNextAlivePlayer() {
         int nextCandidate = currentSpeaker;
         Player currentAlivePlayer = null;
         while (nextCandidate < playerList.size() && currentAlivePlayer == null) {
             Player player = playerList.get(nextCandidate++);
-            if(player.isAlive()) {
+            if (player.isAlive()) {
                 currentSpeaker = nextCandidate;
                 currentAlivePlayer = player;
             }
         }
 
-        if(nextCandidate >= playerList.size()) {
+        if (nextCandidate >= playerList.size()) {
             discussInProcess = false;
         }
         return currentAlivePlayer;
+    }
+
+    public Player getNextSayerCandidate() {
+        int nextCandidate = currentSpeaker;
+        while (nextCandidate < playerList.size()) {
+            Player player = playerList.get(nextCandidate);
+            if (player.isAlive()) {
+                return player;
+            }
+        }
+        return null;
     }
 
     public void startDiscuss() {

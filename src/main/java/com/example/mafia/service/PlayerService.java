@@ -26,10 +26,11 @@ public class PlayerService {
         return playerRepository.findByUserId(userId);
     }
 
-    public void identPlayers(List<Player> playerList) {
+    public List<Player> identPlayers(List<Player> playerList) {
         List<Player> players = new PlayerIdentifier().identPlayers(playerList);
         for (Player p : players) {
             playerRepository.save(p);
         }
+        return players;
     }
 }
