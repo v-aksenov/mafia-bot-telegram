@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 public class ToNightExecutor {
 
     public static List<GameMessage> toNight(Game game) {
+        game.setDayState(DayState.NIGHT);
         List<GameMessage> gameMessages = List.of(new GameMessage(game.getLinkedChat(), ReplyText.NIGHT_STARTED));
         List<Player> aliveMafia = game.getAliveMafia();
         List<GameMessage> mafiaKillMessages = aliveMafia.stream()
